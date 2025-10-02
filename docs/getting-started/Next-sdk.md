@@ -10,7 +10,7 @@ The Protekt Next.js client library simplifies integrating Protekt in your Next.j
 
 Before you continue, ensure you complete the following requirements:
 
-- Node.js v21+ is installed on your system.
+- [Node.js v21+](https://nodejs.org/) is installed on your system.
 - You have signed up for a [Protekt account](https://app.prtekt.io).
 - You have a Next.js v15+ project already set up.
 
@@ -24,11 +24,11 @@ npm install @hackmamba/protekt-js
 
 ## Step 1 - Create a new Protekt project
 
-Log in to your Protekt dashboard and navigate to **Projects** > **Create new Project** on the top menu bar to create a new project.
+To create a new Protekt project, log in to your Protekt dashboard and navigate to **Projects** > **Create new Project** on the top menu bar to create a new project.
 
 When prompted for the authentication method, select **Password-based** login. Once the project has been created, click on it and copy the **Protekt Login ID** string that appears in the **Configuration** tab.
 
-Now go back to your Next.js project and add the Protekt Login ID in `.env` as an environment variable:
+Now go back to your Next.js project root and add the Protekt Login ID in `.env` as an environment variable:
 
 ```bash
 PROTEKT_Login_ID = '<your_Protekt_Login_ID>'
@@ -98,6 +98,8 @@ export default async function Dashboard() {
   );
 }
 ```
+
+Congratulations! You’ve just seen how quick and straightforward it is to implement authentication in Next.js with Protekt. From here, you can start exploring more advanced features and capabilities of Protekt to enhance your application’s security and user experience.
 
 ## Next Steps
 
