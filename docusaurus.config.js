@@ -29,7 +29,6 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'mich45', // Usually your GitHub org/user name.
   projectName: 'protekt-docs', // Usually your repo name.
-  deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'ignore',
 
