@@ -30,9 +30,8 @@ Protekt abstracts away the complexity of authentication by giving you a ready-to
 
 4. After a successful login, Protekt returns a **JWT** to your application, which you can then use to authenticate subsequent requests.
 
-And that's all you need to know to start using Protekt.
+Now that you undersatand what Protekt is and how it works, you're ready to start building with it.
 
 ## Next Steps
-
 - [Getting Started](#)
 - [API Reference](#)

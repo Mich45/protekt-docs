@@ -99,9 +99,13 @@ export default async function Dashboard() {
 }
 ```
 
-Congratulations! You’ve just seen how quick and straightforward it is to implement authentication in Next.js with Protekt. From here, you can start exploring more advanced features and capabilities of Protekt to enhance your application’s security and user experience.
+In the above code, the secure JWT token issued by Protekt is stored as a secure HTTP-only cookie in your browser and then used in subsequent requests. The `getSession()` method reads the cookie, validates the token, and returns a `sessions` object containing the user's data.
+
+Basically, instead of handling raw cookies yourself in your code, `getSession()` abstracts all of this away, allowing you to focus on other important aspects of your application.
+
 
 ## Next Steps
+Congratulations! You’ve just seen how quick and straightforward it is to implement authentication in Next.js with Protekt. From here, you can start exploring more advanced features and capabilities of Protekt to enhance your application’s security and user experience.
 
 - [Protekt Dasboard](https://app.protekt.io): Learn how to customize and manage your Protekt projects
 - [Protekt Next.js SDK API reference](/sdks/next-js): Explore the functions and methods in the Protekt Next.js SDK more fully.
