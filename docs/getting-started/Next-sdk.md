@@ -24,7 +24,7 @@ npm install @hackmamba/protekt-js
 
 ## Step 1 - Create a new Protekt project
 
-Log in to your Protekt dashboard and navigate to the **Projects** page. Click on **Create new Project** on the top menu bar.
+To create a new Protekt project, log in to your [dashboard](https://app.protekt.io) and navigate to the **Projects** page. Click on **Create new Project** on the top menu bar and follow the instructions in the modal.
 
 When prompted for the authentication method, select **Password-based** login. Once the project has been created, click on it and copy the **Protekt Login ID** string that appears in the **Configuration** tab.
 
@@ -36,7 +36,7 @@ PROTEKT_Login_ID = '<your_Protekt_Login_ID>'
 
 ## Step 2 - Configure Your Universal Login and Logout Components
 
-In `src/app/auth/login.tsx`, import the prebuilt Login and Logout components from the SDK and provide them with your PROTEKT_LOGIN_ID.
+In `src/app/auth/login.tsx`, import the prebuilt Login and Logout components from the SDK and provide them with your `PROTEKT_LOGIN_ID`.
 
 ```js
 "use client";
