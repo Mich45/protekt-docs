@@ -1,23 +1,296 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
+/* ── Base ── */
+.main {
+  background: #0b1326;
+  color: #dae2fd;
+  min-height: 100vh;
+}
 
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+/* ── Hero ── */
+.hero {
   position: relative;
+  padding: 96px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(206,189,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.buttons {
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(149,142,160,0.2);
+  background: rgba(6,14,32,0.6);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #cebdff;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cebdff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.heroTitle {
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.heroAccent {
+  color: #cebdff;
+}
+
+.heroSubtitle {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #8b94b0;
+  max-width: 520px;
+  margin: 0;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #cebdff, #9b7fed);
+  color: #0b1326 !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btnPrimary:hover {
+  transform: scale(1.02);
+  opacity: 0.92;
+}
+
+.features {
+  padding: 80px 24px;
+  background: #131b2e;
+}
+
+.featuresInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.featuresTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.featureCard {
+  position: relative;
+  background: #171f33;
+  border: 1px solid rgba(73,68,84,0.4);
+  border-radius: 10px;
+  padding: 32px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.featureCard:hover {
+  border-color: rgba(206,189,255,0.3);
+  transform: translateY(-2px);
+}
+
+.featureGlow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(206,189,255,0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.featureCard:hover .featureGlow {
+  opacity: 1;
+}
+
+.featureIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #0b1326;
+  border: 1px solid rgba(73,68,84,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #cebdff;
+  margin-bottom: 20px;
 }
+
+.featureCardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.featureCardDesc {
+  font-size: 0.85rem;
+  color: #8b94b0;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.code {
+  position: relative;
+  padding: 96px 24px;
+  background: #0b1326;
+  overflow: hidden;
+}
+
+.codeGlow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: rgba(155,127,237,0.08);
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.codeInner {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.codeTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.codeBlock {
+  border-radius: 8px;
+  border: 1px solid rgba(73,68,84,0.3);
+  background: #060e20;
+  overflow: hidden;
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #131b2e;
+  border-bottom: 1px solid rgba(73,68,84,0.3);
+}
+
+.codeDots {
+  display: flex;
+  gap: 6px;
+}
+
+.codeDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2d3449;
+}
+
+.codeFilename {
+  font-size: 0.75rem;
+  color: #8b94b0;
+  margin-left: 8px;
+  font-family: monospace;
+}
+
+.codePre {
+  display: flex;
+  padding: 24px;
+  gap: 16px;
+}
+
+.lineNumbers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  color: #494454;
+  font-size: 0.8rem;
+  font-family: monospace;
+  line-height: 1.6;
+  user-select: none;
+  min-width: 16px;
+  text-align: right;
+}
+
+.codePre pre {
+  margin: 0;
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #dae2fd;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.codePre code {
+  background: transparent !important;
+  font-size: inherit;
+}
+
+.kw { color: #ffb869; }
+.str { color: #cebdff; }
+.cls { color: #cebdff; }
