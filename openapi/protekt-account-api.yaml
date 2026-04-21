@@ -1,0 +1,771 @@
+openapi: 3.0.3
+info:
+  title: Protekt Account API
+  version: 1.0.0
+  description: The Account API allows you to manage your Protekt organization programmatically. You can create and configure
+    projects, issue and rotate API keys, invite team members, and monitor usage. Note that all
+    requests require a Management Token.
+servers:
+- url: https://api.protekt.io/v1
+  description: Account API
+tags:
+- name: Projects
+  description: Create and manage Protekt projects
+- name: Management Tokens
+  description: Issue and revoke Management Tokens
+- name: API Keys
+  description: Generate and manage project API keys
+- name: Members
+  description: Manage organization team members
+- name: Usage
+  description: Retrieve usage and MAU metrics
+components:
+  securitySchemes:
+    ManagementToken:
+      type: http
+      scheme: bearer
+      description: Management Token obtained from POST /token. Required for all Account
+        API endpoints.
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: invalid_credentials
+            message:
+              type: string
+              example: The email or password is incorrect.
+            details:
+              type: object
+              additionalProperties: true
+    PaginationMeta:
+      type: object
+      properties:
+        next_cursor:
+          type: string
+          nullable: true
+          example: cur_abc123
+        has_more:
+          type: boolean
+          example: true
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          example: proj_01jk8abc
+        login_id:
+          type: string
+          example: lp_7xqm9xyz
+        name:
+          type: string
+          example: My App – Production
+        description:
+          type: string
+          nullable: true
+        redirect_url:
+          type: string
+          format: uri
+          example: https://myapp.com/dashboard
+        allowed_origins:
+          type: array
+          items:
+            type: string
+          example:
+          - https://myapp.com
+        token_expiry:
+          type: integer
+          description: JWT expiry in seconds
+          example: 3600
+        refresh_token_expiry:
+          type: integer
+          description: Refresh token expiry in seconds
+          example: 2592000
+        mfa_required:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ProjectCreate:
+      type: object
+      required:
+      - name
+      - allowed_origins
+      - redirect_url
+      properties:
+        name:
+          type: string
+          example: My App – Production
+        allowed_origins:
+          type: array
+          items:
+            type: string
+          example:
+          - https://myapp.com
+        redirect_url:
+          type: string
+          format: uri
+          example: https://myapp.com/dashboard
+        description:
+          type: string
+        token_expiry:
+          type: integer
+          default: 3600
+        refresh_token_expiry:
+          type: integer
+          default: 2592000
+        mfa_required:
+          type: boolean
+          default: false
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        allowed_origins:
+          type: array
+          items:
+            type: string
+        redirect_url:
+          type: string
+          format: uri
+        token_expiry:
+          type: integer
+        mfa_required:
+          type: boolean
+    ManagementToken:
+      type: object
+      properties:
+        management_token:
+          type: string
+          example: mgmt_eyJhbGciOiJIUz...
+        expires_at:
+          type: string
+          format: date-time
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          example: key_xk901abc
+        key:
+          type: string
+          description: Raw key value — only returned at creation time
+          example: pk_live_AbCdEfGh...
+        label:
+          type: string
+          example: Backend server – production
+        project_id:
+          type: string
+          example: proj_01jk8abc
+        scopes:
+          type: array
+          items:
+            type: string
+            enum:
+            - auth:read
+            - auth:write
+            - users:read
+            - users:write
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    ApiKeyCreate:
+      type: object
+      required:
+      - project_id
+      - label
+      properties:
+        project_id:
+          type: string
+        label:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+            enum:
+            - auth:read
+            - auth:write
+            - users:read
+            - users:write
+          default:
+          - auth:read
+          - auth:write
+          - users:read
+          - users:write
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+    ApiKeyMeta:
+      type: object
+      description: API key metadata — key value is never returned after creation
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        project_id:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+          example: mem_001
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+          - owner
+          - admin
+          - developer
+        joined_at:
+          type: string
+          format: date-time
+    UsageStats:
+      type: object
+      properties:
+        period:
+          type: object
+          properties:
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+        mau:
+          type: integer
+          example: 1842
+        total_logins:
+          type: integer
+          example: 9231
+        tokens_issued:
+          type: integer
+          example: 11004
+        passwordless_logins:
+          type: integer
+          example: 3120
+        sso_logins:
+          type: integer
+          example: 894
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired token or API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Validation error or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ProjectId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique project ID (e.g. proj_01jk8abc)
+    UserId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique user ID (e.g. usr_9klabc)
+    SessionId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique session ID (e.g. sess_kl8abc)
+    ApiKeyId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique API key ID (e.g. key_xk901abc)
+    MemberId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique member ID (e.g. mem_001)
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+      description: Max number of results per page
+    CursorParam:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      description: Pagination cursor from the previous response
+paths:
+  /token:
+    post:
+      tags:
+      - Management Tokens
+      summary: Request a Management Token
+      description: Authenticate with your Protekt account credentials to obtain a
+        Management Token. This token is required for all Account API requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Management Token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementToken'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /token/revoke:
+    post:
+      tags:
+      - Management Tokens
+      summary: Revoke the current Management Token
+      description: Immediately invalidate the current Management Token. Use this when
+        rotating credentials or ending an admin session.
+      security:
+      - ManagementToken: []
+      responses:
+        '200':
+          description: Token revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+                    example: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects:
+    get:
+      tags:
+      - Projects
+      summary: List all projects
+      description: Returns a paginated list of all projects belonging to the authenticated
+        organization.
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/CursorParam'
+      responses:
+        '200':
+          description: Paginated list of projects
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Project'
+                - $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+      - Projects
+      summary: Create a project
+      description: Create a new Protekt project. A unique login_id is automatically
+        generated and returned.
+      security:
+      - ManagementToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{id}:
+    get:
+      tags:
+      - Projects
+      summary: Get a project
+      description: Retrieve a single project by its ID, including current configuration
+        and generated login_id.
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+      - Projects
+      summary: Update a project
+      description: Update one or more configuration fields on an existing project.
+        Only the fields you provide will be changed.
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+      - Projects
+      summary: Delete a project
+      description: 'Permanently deletes a project and all associated configuration,
+        users, and sessions.
+
+        **This action is irreversible.** All active JWTs issued by this project will
+        be immediately invalidated.
+
+        '
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Project deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                    example: true
+                  id:
+                    type: string
+                    example: proj_01jk8abc
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api-keys:
+    get:
+      tags:
+      - API Keys
+      summary: List API keys
+      description: List all API keys for the organization. Key values are never returned
+        — only metadata.
+      security:
+      - ManagementToken: []
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+        description: Filter keys by a specific project
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: List of API key metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKeyMeta'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+      - API Keys
+      summary: Create an API key
+      description: "Generate a new API key scoped to a specific project. \n**The raw\
+        \ key value is only returned once** at creation time — store it securely.\n"
+      security:
+      - ManagementToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyCreate'
+      responses:
+        '201':
+          description: API key created (raw key included)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api-keys/{id}:
+    delete:
+      tags:
+      - API Keys
+      summary: Revoke an API key
+      description: Permanently revoke an API key. Any service using this key will
+        immediately lose access to the Authentication API.
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyId'
+      responses:
+        '200':
+          description: API key revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+                    example: true
+                  id:
+                    type: string
+                    example: key_xk901abc
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /members:
+    get:
+      tags:
+      - Members
+      summary: List organization members
+      description: List all members of the organization with their roles and access
+        levels.
+      security:
+      - ManagementToken: []
+      responses:
+        '200':
+          description: List of members
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Member'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /members/invite:
+    post:
+      tags:
+      - Members
+      summary: Invite a member
+      description: Send an invitation email to add a new member to the organization.
+      security:
+      - ManagementToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - role
+              properties:
+                email:
+                  type: string
+                  format: email
+                role:
+                  type: string
+                  enum:
+                  - admin
+                  - developer
+      responses:
+        '200':
+          description: Invitation sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invitation sent to dev@acme.com
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /members/{id}:
+    delete:
+      tags:
+      - Members
+      summary: Remove a member
+      description: Remove a member from the organization. They immediately lose all
+        dashboard and API access.
+      security:
+      - ManagementToken: []
+      parameters:
+      - $ref: '#/components/parameters/MemberId'
+      responses:
+        '200':
+          description: Member removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  removed:
+                    type: boolean
+                    example: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /usage:
+    get:
+      tags:
+      - Usage
+      summary: Get usage statistics
+      description: Retrieve usage stats for the organization or a specific project,
+        including Monthly Active Users (MAU) and login event counts.
+      security:
+      - ManagementToken: []
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+        description: Scope metrics to a specific project
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date
+        description: ISO 8601 start date for the reporting window
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date
+        description: ISO 8601 end date. Defaults to today.
+      responses:
+        '200':
+          description: Usage statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageStats'
+        '401':
+          $ref: '#/components/responses/Unauthorized'

@@ -1,0 +1,1182 @@
+openapi: 3.0.3
+info:
+  title: Protekt Authentication API
+  version: 1.0.0
+  description:
+    The Authentication API handles all end-user identity operations for applications built on Protekt. You can perform signup, login, passwordless flows, SSO, MFA, and session management. All requests
+    require a project API key via the X-Protekt-Key header.
+servers:
+  - url: https://auth.protekt.io/v1
+    description: Authentication API
+tags:
+  - name: Auth
+    description: Email/password signup, login, and logout
+  - name: Tokens
+    description: JWT refresh, verification, and revocation
+  - name: Passwords
+    description: Password reset, confirmation, and change
+  - name: OTP
+    description: One-time passcode (passwordless) flows
+  - name: Magic Link
+    description: Magic link (passwordless) flows
+  - name: SSO
+    description: Single Sign-On (OIDC / SAML) flows
+  - name: MFA
+    description: Multi-factor authentication enrollment and verification
+  - name: Users
+    description: User profile management
+  - name: Sessions
+    description: Session listing and revocation
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Protekt-Key
+      description: Project API key. This is required for all Authentication API endpoints.
+    UserToken:
+      type: http
+      scheme: bearer
+      description:
+        User JWT access token. Required for user-scoped Authentication
+        API actions (e.g. logout, session management).
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: invalid_credentials
+            message:
+              type: string
+              example: The email or password is incorrect.
+            details:
+              type: object
+              additionalProperties: true
+    PaginationMeta:
+      type: object
+      properties:
+        next_cursor:
+          type: string
+          nullable: true
+          example: cur_abc123
+        has_more:
+          type: boolean
+          example: true
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: usr_9klabc
+        email:
+          type: string
+          format: email
+        email_verified:
+          type: boolean
+        mfa_enabled:
+          type: boolean
+        mfa_methods:
+          type: array
+          items:
+            type: string
+            enum:
+              - totp
+              - sms
+        metadata:
+          type: object
+          additionalProperties: true
+        disabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        last_login_at:
+          type: string
+          format: date-time
+          nullable: true
+    AuthTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: eyJhbGci...
+        refresh_token:
+          type: string
+          example: rt_xYz...
+        expires_in:
+          type: integer
+          description: Seconds until the access token expires
+          example: 3600
+        token_type:
+          type: string
+          default: Bearer
+        user:
+          $ref: "#/components/schemas/User"
+    MfaChallengeResponse:
+      type: object
+      description: Returned from POST /auth/login when MFA is required
+      properties:
+        mfa_required:
+          type: boolean
+          example: true
+        mfa_token:
+          type: string
+          description: Temporary token to pass to POST /auth/mfa/verify
+          example: mfa_tmp_abc...
+        available_methods:
+          type: array
+          items:
+            type: string
+            enum:
+              - totp
+              - sms
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sess_kl8abc
+        ip_address:
+          type: string
+          example: 197.210.xx.xx
+        user_agent:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        last_active_at:
+          type: string
+          format: date-time
+        is_current:
+          type: boolean
+    TokenClaims:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        claims:
+          type: object
+          properties:
+            sub:
+              type: string
+              example: usr_9klabc
+            email:
+              type: string
+              format: email
+            iat:
+              type: integer
+            exp:
+              type: integer
+            project_id:
+              type: string
+    TotpEnrollResponse:
+      type: object
+      properties:
+        method:
+          type: string
+          example: totp
+        totp_uri:
+          type: string
+          example: otpauth://totp/Protekt:user@example.com?secret=BASE32SECRET&issuer=Protekt
+        qr_code:
+          type: string
+          description: Base64-encoded PNG QR code
+          example: data:image/png;base64,...
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired token or API key
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    BadRequest:
+      description: Validation error or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    RateLimited:
+      description: Too many requests
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  parameters:
+    ProjectId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique project ID (e.g. proj_01jk8abc)
+    UserId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique user ID (e.g. usr_9klabc)
+    SessionId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique session ID (e.g. sess_kl8abc)
+    ApiKeyId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique API key ID (e.g. key_xk901abc)
+    MemberId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique member ID (e.g. mem_001)
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+      description: Max number of results per page
+    CursorParam:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      description: Pagination cursor from the previous response
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Sign up a new user
+      description:
+        Register a new user with email and password. Protekt hashes and
+        stores credentials internally. Optionally triggers an email verification flow.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                metadata:
+                  type: object
+                  additionalProperties: true
+                  description:
+                    Arbitrary key-value pairs stored alongside the user
+                    profile
+                send_verification:
+                  type: boolean
+                  description:
+                    If true, sends an email verification link. Defaults
+                    to project setting.
+      responses:
+        "201":
+          description: User created and session issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Log in a user
+      description:
+        "Authenticate a user with email and password. Returns a signed
+        JWT and refresh token on success.
+
+        If MFA is required, returns a `mfa_required` challenge response instead of
+        tokens.
+
+        "
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        "200":
+          description: Login successful or MFA challenge issued
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AuthTokenResponse"
+                  - $ref: "#/components/schemas/MfaChallengeResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Log out a user
+      description:
+        End a user session by revoking the current access token and its
+        associated refresh token.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      responses:
+        "200":
+          description: Logged out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logged_out:
+                    type: boolean
+                    example: true
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/token/refresh:
+    post:
+      tags:
+        - Tokens
+      summary: Refresh an access token
+      description:
+        Obtain a new access token using a valid refresh token. The old
+        refresh token is rotated and invalidated on each successful call.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  example: rt_xYz...
+      responses:
+        "200":
+          description: New tokens issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+                  expires_in:
+                    type: integer
+                    example: 3600
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/token/verify:
+    post:
+      tags:
+        - Tokens
+      summary: Verify an access token
+      description:
+        Validate an access token and return its decoded claims. Use this
+        on your backend to confirm a user is authenticated before granting access
+        to protected resources.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  description: The JWT access token to verify
+      responses:
+        "200":
+          description: Token is valid — claims returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenClaims"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/token/revoke:
+    post:
+      tags:
+        - Tokens
+      summary: Revoke a token
+      description:
+        Immediately invalidate a specific access or refresh token without
+        ending the entire session.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  description: The token to revoke
+      responses:
+        "200":
+          description: Token revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+                    example: true
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/password/reset:
+    post:
+      tags:
+        - Passwords
+      summary: Request a password reset
+      description:
+        "Trigger a password reset email. Protekt sends a one-time reset
+        link to the user's registered email, expiring after 15 minutes.
+
+        Always returns `200 OK` regardless of whether the email exists, to prevent
+        user enumeration attacks.
+
+        "
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Reset email dispatched (if email is registered)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: If that email is registered, a reset link has been sent.
+  /auth/password/confirm:
+    post:
+      tags:
+        - Passwords
+      summary: Confirm a password reset
+      description:
+        Complete the password reset flow by submitting the reset token
+        (from the email link) and the new password.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - reset_token
+                - new_password
+              properties:
+                reset_token:
+                  type: string
+                  description: One-time reset token from the email link
+                new_password:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        "200":
+          description: Password reset successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password has been reset successfully.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /auth/password/change:
+    post:
+      tags:
+        - Passwords
+      summary: Change password (authenticated)
+      description:
+        Allow an authenticated user to change their own password by providing
+        their current password and the desired new password.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - current_password
+                - new_password
+              properties:
+                current_password:
+                  type: string
+                  format: password
+                new_password:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        "200":
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password changed successfully.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/otp/send:
+    post:
+      tags:
+        - OTP
+      summary: Send an OTP
+      description:
+        Send a one-time passcode to a user's email or phone for passwordless
+        authentication or as a second factor. OTPs expire after 10 minutes.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Required if phone is not provided
+                phone:
+                  type: string
+                  description: E.164 format. Required if email is not provided
+                  example: "+2348012345678"
+                channel:
+                  type: string
+                  enum:
+                    - email
+                    - sms
+                  default: email
+      responses:
+        "200":
+          description: OTP sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: OTP sent
+                  expires_in:
+                    type: integer
+                    example: 600
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /auth/otp/verify:
+    post:
+      tags:
+        - OTP
+      summary: Verify an OTP
+      description:
+        Verify an OTP code sent via POST /auth/otp/send. Returns a JWT
+        and refresh token on success.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - otp
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Required if OTP was sent to an email
+                phone:
+                  type: string
+                  description: Required if OTP was sent to a phone number
+                otp:
+                  type: string
+                  description: The 6-digit OTP
+                  example: "482910"
+      responses:
+        "200":
+          description: OTP verified — session issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /auth/magic-link/send:
+    post:
+      tags:
+        - Magic Link
+      summary: Send a magic link
+      description:
+        Send a magic link to the user's email. When clicked, the link authenticates
+        the user without a password. The link expires after 15 minutes and is single-use.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                redirect_url:
+                  type: string
+                  format: uri
+                  description:
+                    Override the project's default redirect URL for this
+                    request
+      responses:
+        "200":
+          description: Magic link sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Magic link sent
+                  expires_in:
+                    type: integer
+                    example: 900
+  /auth/magic-link/verify:
+    post:
+      tags:
+        - Magic Link
+      summary: Verify a magic link token
+      description:
+        Verify a magic link token extracted from the URL after the user
+        clicks the emailed link. Returns a JWT and refresh token on success.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  description: The magic link token from the email URL parameter
+      responses:
+        "200":
+          description: Magic link verified — session issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /auth/sso/authorize:
+    get:
+      tags:
+        - SSO
+      summary: Initiate an SSO login
+      description:
+        Initiate an SSO login flow. Redirects the user to their configured
+        identity provider (IdP). Supports OIDC and SAML 2.0 providers configured in
+        the Protekt Dashboard.
+      security:
+        - ApiKey: []
+      parameters:
+        - name: provider
+          in: query
+          required: true
+          schema:
+            type: string
+            example: google
+          description: The SSO provider slug (e.g. google, okta, azure-ad)
+        - name: redirect_url
+          in: query
+          schema:
+            type: string
+            format: uri
+          description: Override the post-login redirect URL for this request
+        - name: state
+          in: query
+          schema:
+            type: string
+          description: Opaque string passed back in the callback for CSRF protection
+      responses:
+        "302":
+          description: Redirect to identity provider
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /auth/sso/callback:
+    get:
+      tags:
+        - SSO
+      summary: SSO callback
+      description:
+        "The redirect target for the SSO provider after authentication.
+        Protekt exchanges the authorization code for a session and redirects with
+        tokens.
+
+        Register `https://auth.protekt.io/v1/auth/sso/callback` as the callback URL
+        in your IdP configuration.
+
+        "
+      security:
+        - ApiKey: []
+      parameters:
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Authorization code from the IdP
+        - name: state
+          in: query
+          schema:
+            type: string
+          description: The state value originally passed to /auth/sso/authorize
+      responses:
+        "302":
+          description: Redirect to application with tokens
+  /auth/mfa/enroll:
+    post:
+      tags:
+        - MFA
+      summary: Enroll in MFA
+      description:
+        Begin enrolling a user in MFA. Enrollment is not finalized until
+        the user verifies a code via POST /auth/mfa/verify.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - method
+              properties:
+                method:
+                  type: string
+                  enum:
+                    - totp
+                    - sms
+                phone:
+                  type: string
+                  description: E.164 phone number. Required when method is sms.
+      responses:
+        "200":
+          description: MFA enrollment initiated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TotpEnrollResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/mfa/verify:
+    post:
+      tags:
+        - MFA
+      summary: Verify an MFA code
+      description:
+        Verify an MFA code. Used both to finalize MFA enrollment and to
+        complete a login challenge. On a successful login challenge, returns a full
+        JWT session.
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - code
+              properties:
+                mfa_token:
+                  type: string
+                  description:
+                    Temporary MFA challenge token from POST /auth/login.
+                    Required during login.
+                  example: mfa_tmp_abc...
+                code:
+                  type: string
+                  description: The 6-digit TOTP or SMS code
+                  example: "482910"
+      responses:
+        "200":
+          description: MFA verified — session issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /auth/mfa/unenroll:
+    delete:
+      tags:
+        - MFA
+      summary: Remove an MFA method
+      description: "Remove an MFA method from a user's account. Requires a valid
+        user access token.
+
+        Returns 403 if the project enforces MFA (`mfa_required: true`).
+
+        "
+      security:
+        - ApiKey: []
+        - UserToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - method
+              properties:
+                method:
+                  type: string
+                  enum:
+                    - totp
+                    - sms
+      responses:
+        "200":
+          description: MFA method removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  unenrolled:
+                    type: boolean
+                    example: true
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          description: MFA is enforced by the project and cannot be removed
+  /auth/users:
+    get:
+      tags:
+        - Users
+      summary: List users
+      description:
+        List all users registered within a project. Intended for admin/backend
+        use. Requires an API key with users:read scope.
+      security:
+        - ApiKey: []
+      parameters:
+        - $ref: "#/components/parameters/LimitParam"
+        - $ref: "#/components/parameters/CursorParam"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Filter by email (partial match)
+      responses:
+        "200":
+          description: Paginated list of users
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/PaginationMeta"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get a user
+      description:
+        Retrieve a user's full profile by ID, including metadata, MFA status,
+        and account state.
+      security:
+        - ApiKey: []
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      tags:
+        - Users
+      summary: Update a user
+      description:
+        Update a user's profile or metadata. Admins can update any user;
+        users can update their own profile via their access token.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: New email address. Triggers a re-verification email.
+                metadata:
+                  type: object
+                  additionalProperties: true
+                  description: Merged (not replaced) into existing metadata
+                disabled:
+                  type: boolean
+                  description: Set to true to lock the account. Admin only.
+      responses:
+        "200":
+          description: Updated user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description:
+        Permanently delete a user and all their sessions, tokens, and stored
+        data from the project. This is irreversible.
+      security:
+        - ApiKey: []
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                    example: true
+                  id:
+                    type: string
+                    example: usr_9klabc
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /auth/sessions:
+    get:
+      tags:
+        - Sessions
+      summary: List active sessions
+      description:
+        List all active sessions for the currently authenticated user,
+        including device, IP address, and last active time.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      responses:
+        "200":
+          description: List of active sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Session"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    delete:
+      tags:
+        - Sessions
+      summary: Revoke all sessions
+      description:
+        Revoke all active sessions for the current user — "sign out everywhere".
+        The current session is also terminated unless keep_current is true.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keep_current:
+                  type: boolean
+                  default: false
+                  description: If true, the current session is preserved
+      responses:
+        "200":
+          description: All sessions revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked_count:
+                    type: integer
+                    example: 4
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/sessions/{id}:
+    delete:
+      tags:
+        - Sessions
+      summary: Revoke a session
+      description:
+        Terminate a specific session by ID. Useful for "sign out this device"
+        functionality.
+      security:
+        - ApiKey: []
+        - UserToken: []
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      responses:
+        "200":
+          description: Session revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+                    example: true
+                  session_id:
+                    type: string
+                    example: sess_kl8abc
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"

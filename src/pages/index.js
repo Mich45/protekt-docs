@@ -32,8 +32,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title="Protekt Documentation"
+      description="Protekt is an authentication platform for developers. Our documentation provides comprehensive guides, API references, and best practices to help you integrate Protekt into your applications and secure your software development lifecycle.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
