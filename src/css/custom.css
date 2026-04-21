@@ -6,7 +6,7 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
+  --ifm-color-primary: #6159FD;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
   --ifm-color-primary-darkest: #205d3b;
@@ -19,7 +19,7 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary: #6159FD;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
   --ifm-color-primary-darkest: #1a8870;
@@ -27,4 +27,31 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card__header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card__body p {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.cardContainer__icon {
+  display: none;
 }

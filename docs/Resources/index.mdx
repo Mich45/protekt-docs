@@ -1,0 +1,30 @@
+---
+title: Resources
+sidebar_position: 1
+---
+
+import CardGrid from '@site/src/components/CardGrid/CardGrid';
+import { TriangleAlert, HelpCircle, Headphones } from 'lucide-react';
+
+Everything you need to get help and understand Protekt better.
+
+<CardGrid cards={[
+  {
+    title: "Error Codes",
+    description: "A reference of all error codes returned by the Protekt API.",
+    icon: TriangleAlert,
+    to: "/docs/Resources/Error-codes"
+  },
+  {
+    title: "Troubleshooting & FAQs",
+    description: "Common issues and frequently asked questions.",
+    icon: HelpCircle,
+    to: "/docs/Resources/troubleshooting-and-faqs"
+  },
+  {
+    title: "Support",
+    description: "Get in touch with the Protekt support team.",
+    icon: Headphones,
+    to: "/docs/Resources/support"
+  },
+]} />

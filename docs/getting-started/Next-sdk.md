@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Getting Started With Protekt Next.js SDK
+# Next.js SDK
 
 The Protekt Next.js client library simplifies integrating Protekt in your Next.js app by wrapping Protekt's APIs into easy-to-use methods and functions. This guide will walk you through the steps to implement authentication in your Next.js application using Protekt. It's intended for developers who have a basic knowledge of [React](https://react.dev) and [Next.js App Router](https://nextjs.org).
 

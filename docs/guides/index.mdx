@@ -1,0 +1,30 @@
+---
+title: Guides
+sidebar_position: 1
+---
+
+import DocList from '@site/src/components/DocList/DocList';
+import { KeyRound, Fingerprint, Sliders } from 'lucide-react';
+
+Explore the capabilities of Protekt through examples.
+
+<DocList items={[
+  {
+    title: "How to Set up Social Logins With OAuth Providers",
+    description: "Learn how to integrate OAuth providers like Google and GitHub.",
+    icon: KeyRound,
+    to: "/docs/guides/how-to-implement-auth0"
+  },
+  {
+    title: "How to Implement Passwordless Login",
+    description: "Add magic link and OTP-based authentication to your app.",
+    icon: Fingerprint,
+    to: "/docs/guides/how-to-implement-passwordless-login"
+  },
+  {
+    title: "Customizing Protekt",
+    description: "Tailor the Protekt experience to match your brand.",
+    icon: Sliders,
+    to: "/docs/guides/customize"
+  },
+]} />

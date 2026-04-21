@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/undraw_two-factor.svg').default,
     description: (
       <>
         Setting up Protekt in your project takes less than 5 minutes. Regardless
@@ -16,7 +16,7 @@ const FeatureList = [
   },
   {
     title: 'Stateless by Default',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/undraw_authentication.svg').default,
     description: (
       <>
         You don't need a database to run Protekt. Storing user sessions in your
@@ -28,7 +28,7 @@ const FeatureList = [
   },
   {
     title: 'Battle-Tested and Battle-Ready',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/undraw_secure.svg').default,
     description: (
       <>
         Protekt enhances your app security using state-of-the-art encryption

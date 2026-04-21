@@ -1,0 +1,73 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.list li {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.list li:first-child {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.5rem;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: background 0.15s ease, padding-left 0.15s ease;
+  border-radius: 6px;
+}
+
+.item:hover {
+  padding-left: 1rem;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.iconWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ifm-color-primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.arrow {
+  color: var(--ifm-color-emphasis-400);
+  font-size: 1rem;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.item:hover .arrow {
+  transform: translateX(4px);
+  color: var(--ifm-color-primary);
+}
