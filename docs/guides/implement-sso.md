@@ -3,17 +3,17 @@ title: Implement SSO
 sidebar_position: 8
 ---
 
-Single Sign-On (SSO) lets your users authenticate through their organization's identity provider (IdP) — such as Okta, Azure AD, or Google Workspace — using enterprise-grade protocols. Protekt supports both **SAML 2.0** and **OIDC** (OpenID Connect).
+_Single Sign-On_ (SSO) lets your users authenticate through their organization's identity provider (IdP), such as Okta, Azure AD, or Google Workspace — using enterprise-grade protocols. Protekt supports both **SAML 2.0** and **OIDC** (OpenID Connect).
 
-## When to Use SSO
+## When to use SSO
 
 SSO is typically required for:
 
-- **B2B SaaS** — enterprise customers who manage users through their own IdP
-- **Internal tools** — staff who already authenticate via a company directory (LDAP, Active Directory)
-- **Compliance requirements** — organizations that need centralized access control and audit trails
+- **B2B SaaS**: Enterprise customers who manage users through their own IdP
+- **Internal tools**: Staff who already authenticate via a company directory (LDAP, Active Directory)
+- **Compliance requirements**: Organizations that need centralized access control and audit trails
 
-## Supported Protocols
+## Supported protocols
 
 | Protocol | Best For |
 |---|---|
@@ -22,7 +22,7 @@ SSO is typically required for:
 
 ## Setup
 
-### 1. Create a Connection in Protekt
+### 1. Create a connection in Protekt
 
 In the Protekt Dashboard, go to **Project Settings → SSO Connections** and click **Add Connection**. Select your protocol and fill in the connection details.
 
@@ -48,7 +48,7 @@ await protekt.sso.createConnection('proj_01jk8abc', {
 });
 ```
 
-### 2. Configure Your IdP
+### 2. Configure your IdP
 
 Provide the following Protekt URLs to your identity provider:
 
@@ -58,28 +58,31 @@ Provide the following Protekt URLs to your identity provider:
 | **Entity ID** (SAML) | `https://auth.protekt.io` |
 | **Redirect URI** (OIDC) | `https://auth.protekt.io/v1/auth/sso/callback` |
 
-**Okta setup:**
+#### Okta setup
+
 1. In Okta Admin → Applications → Create App Integration → SAML 2.0
 2. Set Single sign-on URL and Audience URI to the values above
 3. Download the metadata XML and paste it into Protekt
 
-**Azure AD setup:**
+#### Azure AD setup
+
 1. In Azure Portal → Enterprise Applications → New application → Create your own
 2. Set up SAML-based sign-on with the above URLs
 3. Download the Federation Metadata XML and enter the URL in Protekt
 
-**Google Workspace (OIDC):**
+#### Google Workspace (OIDC)
+
 1. In Google Cloud Console → APIs & Services → OAuth consent screen
 2. Create OAuth 2.0 credentials (Web application)
 3. Add the redirect URI above and paste the client ID and secret into Protekt
 
 ## Implementation
 
-### Initiating an SSO Login
+### Initiating an SSO login
 
 SSO login follows the same redirect pattern as social login. Redirect users to the Protekt authorize endpoint with a `provider` parameter matching your connection name or the user's email domain.
 
-**Domain-based routing (recommended)**
+#### Domain-based routing (recommended)
 
 When you associate email domains with an SSO connection, Protekt automatically routes users to the correct IdP based on their email:
 
@@ -94,7 +97,7 @@ app.post('/auth/sso', (req, res) => {
 });
 ```
 
-**Named connection routing**
+#### Named connection routing
 
 ```js
 const url = protekt.auth.getSsoUrl({
@@ -104,7 +107,7 @@ const url = protekt.auth.getSsoUrl({
 res.redirect(url);
 ```
 
-**React**
+#### React
 
 ```jsx
 import { useAuth } from '@protekt/react';
@@ -127,7 +130,7 @@ function SsoLoginForm() {
 }
 ```
 
-### Handling the Callback
+### Handling the callback
 
 After the IdP authenticates the user, Protekt completes the exchange and redirects back to your app with a JWT — exactly the same as all other login methods:
 
@@ -141,7 +144,7 @@ app.get('/auth/callback', async (req, res) => {
 });
 ```
 
-## Just-in-Time (JIT) Provisioning
+## Just-in-Time (JIT) provisioning
 
 When a user authenticates via SSO for the first time, Protekt automatically creates a user record in your project. This is called Just-in-Time provisioning — no pre-registration step needed.
 
@@ -178,9 +181,3 @@ await protekt.sso.updateConnection(connectionId, {
   enforced: true, // Users on this domain can only log in via SSO
 });
 ```
-
-## Next Steps
-
-- [Implement MFA](./implement-mfa) — add MFA on top of SSO for additional security
-- [Implement Social Login](./implement-social-login) — consumer-facing OAuth providers
-- [Security Overview](../security/overview) — compliance and security posture

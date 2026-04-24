@@ -7,7 +7,7 @@ Protekt uses standardized error codes to help you quickly identify and resolve i
 
 Understanding these error codes allows you to build better error handling, display meaningful feedback to users, and debug issues efficiently in development and production.
 
-## Error Response Format
+## Error response format
 
 All errors returned by Protekt follow a consistent structure:
 
@@ -25,11 +25,11 @@ Where:
 - `message`: A human-readable explanation
 - `statusCode`: The corresponding HTTP status code
 
-## Common Error Codes
+## Common error codes
 
 Protekt groups errors into categories based on where they occur in the authentication lifecycle. This makes it easier to quickly identify whether an issue is related to login, token handling, permissions, or system-level failures.
 
-### Authentication Errors
+### Authentication errors
 
 These errors typically occur during login or identity verification. You should handle them gracefully in your UI and avoid exposing sensitive details.
 
@@ -40,7 +40,7 @@ These errors typically occur during login or identity verification. You should h
 | `email_not_verified`  | User must verify email before login                   | 403  |
 | `account_locked`      | Account temporarily locked due to suspicious activity | 423  |
 
-### Token and Session Errors
+### Token and session errors
 
 These errors usually require re-authentication or token refresh. In most cases, enabling automatic refresh in the SDK prevents user disruption.
 
@@ -52,7 +52,7 @@ These errors usually require re-authentication or token refresh. In most cases, 
 | `session_not_found`     | Session does not exist              | 404  |
 | `session_revoked`       | Session has been revoked            | 401  |
 
-### Authorization Errors
+### Authorization errors
 
 These errors occur when a user is authenticated but not authorized. Ensure proper role or permission checks in your application.
 
@@ -61,7 +61,7 @@ These errors occur when a user is authenticated but not authorized. Ensure prope
 | `insufficient_permissions` | User lacks required permissions | 403  |
 | `access_denied`            | Access to resource is forbidden | 403  |
 
-### Server Errors
+### Server errors
 
 Implement retries and fallback mechanisms for these errors.
 

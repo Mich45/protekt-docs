@@ -1,5 +1,5 @@
 ---
-title: Authentication Basics
+title: Authentication basics
 sidebar_position: 1
 ---
 
@@ -8,19 +8,19 @@ Understanding authentication is fundamental to building secure applications. In 
 
 This guide introduces the core concepts behind authentication in Protekt, explains how the system works under the hood, and walks through the different authentication methods you can use in your application.
 
-## Core Concepts
+## Core concepts
 
 Authentication in Protekt is built around a few foundational ideas that define how users are identified, verified, and granted access. These concepts remain consistent regardless of the authentication method you choose, making it easier to reason about your system as it grows.
 
 By understanding these building blocks, you can better design authentication flows, debug issues, and implement advanced features like multi-factor authentication or enterprise SSO with confidence.
 
-### What is Authentication?
+### What is authentication?
 
 Authentication is the process of verifying a user's identity—confirming that they are who they claim to be. This typically involves credentials such as passwords, one-time codes, or third-party identity providers.
 
 In Protekt, authentication is abstracted into a simple API, but behind the scenes it involves secure credential verification, token issuance, and session creation. This allows you to focus on your application logic while Protekt handles the complexities of cryptography, token lifecycle management, and security enforcement.
 
-### Key Terms
+### Key terms
 
 These terms are used throughout the documentation and form the foundation of how authentication works in Protekt.
 
@@ -34,7 +34,7 @@ These terms are used throughout the documentation and form the foundation of how
 
 Each of these concepts plays a specific role. For example, tokens carry claims about a user, while sessions provide a server-side mechanism to manage and revoke access. Understanding how they interact is key to building secure authentication flows.
 
-## How Protekt Works
+## How Protekt works
 
 Protekt acts as the bridge between your application and the underlying authentication infrastructure. Instead of directly handling credentials or token verification, your app communicates with the Protekt SDK, which manages these operations securely.
 
@@ -44,14 +44,13 @@ At a high level, the flow starts when a user attempts to log in. The request is 
 
 Subsequent API calls include the access token, which is validated on each request. This ensures that only authenticated users can access protected resources, while also enabling fine-grained authorization based on user data.
 
-
-## Authentication Methods
+## Authentication methods
 
 Protekt supports multiple authentication methods to accommodate different use cases, from simple applications to enterprise-grade systems. You can choose one or combine several depending on your needs.
 
 Each method is designed to provide a balance between user experience and security. For example, passwordless authentication reduces friction, while multi-factor authentication adds an extra layer of protection.
 
-### 1. Password-Based
+### 1. Password-based
 
 Password-based authentication is the most traditional method, where users log in using an email and password combination. Protekt securely handles password hashing, validation, and storage.
 
@@ -79,7 +78,7 @@ await protekt.sendMagicLink({ email: 'user@example.com' });
 await protekt.verifyOTP({ email: 'user@example.com', code: '123456' });
 ```
 
-### 3. Social Login
+### 3. Social login
 
 Social login allows users to authenticate using existing accounts from providers like Google or GitHub. This leverages OAuth flows to securely delegate authentication.
 
@@ -93,7 +92,7 @@ await protekt.authenticate({
 });
 ```
 
-### 4. SSO (Enterprise)
+### 4. SSO (enterprise)
 
 Single Sign-On (SSO) is designed for enterprise environments where users authenticate through a centralized identity provider such as Okta or Azure AD.
 
@@ -107,7 +106,7 @@ await protekt.authenticate({
 });
 ```
 
-### 5. Multi-Factor (MFA)
+### 5. Multi-factor (MFA)
 
 Multi-Factor Authentication adds an extra layer of security by requiring a second verification step after initial login. This can include time-based codes, SMS verification, or hardware-based authentication like WebAuthn.
 
@@ -121,7 +120,7 @@ await protekt.verifyMFA({
 });
 ```
 
-## Session vs Token
+## Session vs token
 
 Sessions and tokens are closely related but serve different purposes in authentication. Understanding the distinction helps you design more secure and scalable systems.
 
@@ -136,7 +135,7 @@ Sessions are managed server-side and represent the overall authenticated state, 
 
 In practice, tokens are used frequently for API calls, while sessions provide the control layer for managing and revoking access when needed.
 
-## Security Best Practices
+## Security best practices
 
 Authentication is one of the most critical parts of your application’s security model. Even small mistakes can lead to serious vulnerabilities, so it’s important to follow established best practices.
 

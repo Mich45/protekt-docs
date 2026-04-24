@@ -42,7 +42,7 @@ export const protekt = new Protekt({
 });
 ```
 
-### Configuration Options
+### Configuration options
 
 | Option | Type | Required | Description |
 |---|---|---|---|
@@ -51,9 +51,9 @@ export const protekt = new Protekt({
 | `tokenExpiry` | `number` | No | Override JWT expiry in seconds. Defaults to project setting |
 | `timeout` | `number` | No | Request timeout in milliseconds. Default: `5000` |
 
-## Basic Usage
+## Basic usage
 
-### Verify a Token
+### Verify a token
 
 Use `verifyToken` in your middleware to authenticate incoming requests.
 
@@ -79,7 +79,7 @@ export async function requireAuth(req, res, next) {
 }
 ```
 
-### Sign Up a User
+### Sign up a user
 
 ```js
 const { user, accessToken, refreshToken, error } = await protekt.auth.signUp({
@@ -89,7 +89,7 @@ const { user, accessToken, refreshToken, error } = await protekt.auth.signUp({
 });
 ```
 
-### Log In a User
+### Log in a user
 
 ```js
 const { user, accessToken, refreshToken, error } = await protekt.auth.login({
@@ -103,7 +103,7 @@ if (error?.code === 'mfa_required') {
 }
 ```
 
-### Refresh a Token
+### Refresh a token
 
 ```js
 const { accessToken, refreshToken } = await protekt.auth.refreshToken(
@@ -111,13 +111,13 @@ const { accessToken, refreshToken } = await protekt.auth.refreshToken(
 );
 ```
 
-### Log Out a User
+### Log out a user
 
 ```js
 await protekt.auth.logout(accessToken);
 ```
 
-## Working with Users
+## Working with users
 
 ```js
 // Get a user by ID
@@ -132,7 +132,7 @@ const { user } = await protekt.users.update('usr_9klabc', {
 await protekt.users.delete('usr_9klabc');
 ```
 
-## Session Management
+## Session management
 
 ```js
 // List a user's active sessions (pass their access token)
@@ -145,7 +145,7 @@ await protekt.sessions.revoke(sessionId, accessToken);
 await protekt.sessions.revokeAll(accessToken, { keepCurrent: true });
 ```
 
-## TypeScript Support
+## TypeScript support
 
 The SDK ships with full TypeScript definitions. All methods return typed responses.
 
@@ -162,7 +162,7 @@ const response: AuthTokenResponse = await protekt.auth.login({
 const user: ProtektUser = response.user;
 ```
 
-## Error Handling
+## Error handling
 
 All SDK methods return an `error` field rather than throwing, making it easy to handle failures inline. For unexpected failures, the SDK will throw a `ProtektError`.
 

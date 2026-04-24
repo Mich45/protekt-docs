@@ -1,11 +1,11 @@
 ---
-title: Implement Social Login
+title: Implement social login
 sidebar_position: 7
 ---
 
-Social login lets users authenticate using an existing account from a provider like Google, GitHub, Apple, or Microsoft — no password required on your end. Protekt handles the OAuth handshake and returns a standard JWT regardless of which provider the user chose.
+_Social login_ lets users authenticate using an existing account from a provider like Google, GitHub, Apple, or Microsoft — no password required on your end. Protekt handles the OAuth handshake and returns a standard JWT regardless of which provider the user chose.
 
-## Supported Providers
+## Supported providers
 
 | Provider | Protocol | Notes |
 |---|---|---|
@@ -16,29 +16,33 @@ Social login lets users authenticate using an existing account from a provider l
 
 ## Setup
 
-### 1. Create OAuth Credentials
+### 1. Create OAuth credentials
 
 Before configuring Protekt, create OAuth credentials with your chosen provider.
 
-**Google**
+#### Google
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials
 2. Create an OAuth 2.0 Client ID (Web application)
 3. Add `https://auth.protekt.io/v1/auth/sso/callback` as an authorized redirect URI
 
-**GitHub**
+#### GitHub
+
 1. Go to GitHub → Settings → Developer settings → OAuth Apps
 2. Set the callback URL to `https://auth.protekt.io/v1/auth/sso/callback`
 
-**Apple**
+#### Apple
+
 1. Go to [Apple Developer](https://developer.apple.com) → Certificates, Identifiers & Profiles
 2. Create a Services ID and enable Sign in with Apple
 3. Add `https://auth.protekt.io/v1/auth/sso/callback` as a return URL
 
-**Microsoft**
+#### Microsoft
+
 1. Go to [Azure Portal](https://portal.azure.com) → App registrations → New registration
 2. Set the redirect URI to `https://auth.protekt.io/v1/auth/sso/callback`
 
-### 2. Configure the Provider in Protekt
+### 2. Configure the provider in Protekt
 
 In your Protekt Dashboard, go to **Project Settings → Social Providers** and enter the Client ID and Client Secret for each provider you want to enable.
 
@@ -56,9 +60,9 @@ await protekt.projects.updateProvider('proj_01jk8abc', {
 
 Social login uses the same redirect-based flow as SSO. Your application links to Protekt's authorize endpoint with a `provider` parameter.
 
-### Adding Social Login Buttons
+### Adding social login buttons
 
-**Node.js — generate the redirect URL**
+#### Node.js: generate the redirect URL
 
 ```js
 // Express route — redirect to Google login
@@ -72,11 +76,12 @@ app.get('/auth/google', (req, res) => {
 ```
 
 This redirects the user to:
-```
+
+```bash
 https://auth.protekt.io/v1/auth/sso/authorize?provider=google&login_id=lp_7xqm9...
 ```
 
-**React — using the SDK**
+#### React: using the SDK
 
 ```jsx
 import { useAuth } from '@protekt/react';
@@ -103,7 +108,7 @@ function SocialLoginButtons() {
 }
 ```
 
-### Handling the Callback
+### Handling the callback
 
 After the user authenticates with the provider, Protekt redirects them back to your application with a JWT — the same as any other login method.
 
@@ -120,7 +125,7 @@ app.get('/auth/callback', async (req, res) => {
 
 The React SDK handles this automatically.
 
-## User Data from Providers
+## User data from providers
 
 When a user logs in via a social provider for the first time, Protekt creates a new user in your project's identity store and populates their profile with data from the provider:
 
@@ -140,7 +145,7 @@ When a user logs in via a social provider for the first time, Protekt creates a 
 
 On subsequent logins, the existing user record is matched by email — the provider account is linked automatically.
 
-## Account Linking
+## Account linking
 
 If a user has previously signed up with email/password and then tries to log in with Google using the same email, Protekt will link the accounts automatically. The user will have access to both login methods going forward.
 
@@ -151,12 +156,6 @@ const { user } = await protekt.users.get(userId);
 console.log(user.metadata.provider); // 'google'
 ```
 
-## Scopes and Permissions
+## Scopes and permissions
 
 By default, Protekt requests only the minimum scopes needed to identify the user (email and profile). If your application needs additional permissions (for example, Google Calendar access), configure additional scopes in the dashboard under **Social Providers → Advanced Settings**.
-
-## Next Steps
-
-- [Implement SSO](./implement-sso) — SAML 2.0 and OIDC for enterprise identity providers
-- [Implement MFA](./implement-mfa) — require a second factor alongside social login
-- [Customize Login UI](./customize-login-ui) — style your social login buttons to match your brand

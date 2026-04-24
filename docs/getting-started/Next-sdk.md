@@ -21,7 +21,7 @@ Navigate to your Next.js project root directory and run the following command to
 npm install @hackmamba/protekt-js
 ```
 
-## Step 1 - Create a new Protekt project
+## Step 1: Create a new Protekt project
 
 To create a new Protekt project, log in to your [dashboard](https://app.protekt.io) and navigate to the **Projects** page. Click on **Create new Project** on the top menu bar and follow the instructions in the modal.
 
@@ -33,7 +33,7 @@ Now go back to your Next.js project and add the Protekt Login ID in `.env` as an
 PROTEKT_Login_ID = '<your_Protekt_Login_ID>'
 ```
 
-## Step 2 - Configure Your Universal Login and Logout Components
+## Step 2: Configure your Universal Login and Logout components
 
 In `src/app/auth/login.tsx`, import the prebuilt Login and Logout components from the SDK and provide them with your `PROTEKT_LOGIN_ID`.
 
@@ -65,7 +65,7 @@ This is what the login page looks like:
 
 Notice that we’re using **NEXT_PUBLIC_PROTEKT_LOGIN_ID** since environment variables accessed in the client must be prefixed with _NEXT_PUBLIC_.
 
-## Step 3 - Protect a Route in Next.js
+## Step 3: Protect a route in Next.js
 
 The core idea behind authentication in a Next.js app is to restrict user access to sensitive data and information. You can protect pages or API routes by checking the user’s session from Protekt, using the `getSession()` helper method.
 
@@ -102,7 +102,7 @@ In the above code, the secure JWT token issued by Protekt is stored as a secure 
 
 So basically, instead of handling raw cookies yourself in your code, `getSession()` abstracts all of this away, allowing you to focus on other important areas of your application.
 
-## Next Steps
+## Next steps
 
 - [Protekt Dasboard](https://app.protekt.io): Learn how to customize and manage your Protekt projects
 - [Protekt Next.js SDK API reference](/sdks/next-js): Explore the functions and methods in the Protekt Next.js SDK more fully.

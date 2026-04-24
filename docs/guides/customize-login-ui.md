@@ -5,7 +5,7 @@ sidebar_position: 2
 
 Protekt's _Universal Login_ page is fully customizable. You can update colors, fonts, logos, and copy to match your brand, or go further and apply custom CSS for complete visual control.
 
-## What You Can Customize
+## What you can customize
 
 | Element | Method |
 |---|---|
@@ -17,9 +17,9 @@ Protekt's _Universal Login_ page is fully customizable. You can update colors, f
 | Login page copy (labels, placeholders, error messages) | Dashboard → Localization |
 | Custom domain | Dashboard → Branding → Custom Domain |
 
-## Branding Settings
+## Branding settings
 
-### Logo and Brand Name
+### Logo and brand name
 
 In the Protekt Dashboard, go to **Project Settings → Branding**:
 
@@ -41,7 +41,7 @@ Protekt uses a small set of design tokens you can override:
 
 Set these in the Dashboard color picker or directly in Custom CSS.
 
-### Custom Font
+### Custom font
 
 To use a custom font, add a Google Fonts import in the Custom CSS field:
 
@@ -102,7 +102,7 @@ For deeper customization, paste CSS into **Project Settings > Branding > Custom 
 Changes to Custom CSS are previewed live in the Dashboard before publishing. Use the preview pane to iterate without affecting your production login page.
 :::
 
-## Custom Domain
+## Custom domain
 
 By default, users see Protekt's login page at `login.protekt.io`. You can serve it from your own domain (for example, `auth.myapp.com`) for a fully seamless experience.
 
@@ -121,7 +121,7 @@ CNAME   auth    login.protekt.io
 
 DNS propagation typically takes 5–30 minutes. Once active, the login page will be served from your custom domain with a valid HTTPS certificate.
 
-## Email Templates
+## Email templates
 
 Protekt sends transactional emails for signup verification, password reset, magic links, and OTP codes. You can customize:
 
@@ -158,7 +158,7 @@ Common overrides:
 | `login.submit` | `Continue` | `Sign in to Acme` |
 | `signup.title` | `Create your account` | `Get started for free` |
 
-## Using the React SDK's Pre-built Components
+## Using the React SDK's pre-built components
 
 If you prefer not to use the hosted Universal Login page, the React SDK includes pre-built components you can embed directly in your app and style with your own CSS or Tailwind:
 
@@ -170,11 +170,3 @@ import { LoginForm } from '@protekt/react';
   onSuccess={(user) => router.push('/dashboard')}
 />
 ```
-
-For all available props, see the [LoginForm component reference](../sdks/react/components/LoginForm).
-
-## Next Steps
-
-- [LoginForm Component](../sdks/react/components/LoginForm): Embed and style the login form
-- [Implement Social Login](./implement-social-login): Add provider buttons to the login page
-- [Security Overview](../security/overview): Learn how customization interacts with Protekt's security model

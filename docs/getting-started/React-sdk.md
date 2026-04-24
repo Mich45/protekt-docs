@@ -48,7 +48,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 ```
 
-### Provider Options
+### Provider options
 
 | Prop | Type | Required | Description |
 |---|---|---|---|
@@ -57,7 +57,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 | `tokenStorage` | `'cookie' \| 'memory'` | No | Where to store tokens. Default: `'cookie'` |
 | `onAuthStateChange` | `function` | No | Callback fired whenever auth state changes |
 
-## Core Hooks
+## Core hooks
 
 ### `useAuth`
 
@@ -216,4 +216,4 @@ function Greeting() {
 
 ## Examples
 
-- [Next.js App Router](./examples/nextjs-app-router) — layout provider, server components, middleware guard
+- [Next.js App Router](./examples/nextjs-app-router) — layout provider, server components, middleware guard.

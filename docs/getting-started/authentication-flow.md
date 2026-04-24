@@ -1,5 +1,5 @@
 ---
-title: Authentication Flow
+title: Authentication flow
 sidebar_position: 3
 ---
 
@@ -23,13 +23,13 @@ Protekt redirects → Your app (with JWT)
 Your app verifies JWT & grants access
 ```
 
-## Step-by-Step Breakdown
+## Step-by-step breakdown
 
-### 1. Initiating Login
+### 1. Initiating login
 
 When a user clicks your login button, your application redirects them to the Protekt Universal Login page. The redirect URL includes your `login_id` so Protekt knows which project is making the request.
 
-```
+```bash
 https://login.protekt.io/authorize?login_id=lp_7xqm9...&redirect_url=https://myapp.com/auth/callback
 ```
 
@@ -45,7 +45,7 @@ const loginUrl = protekt.auth.getLoginUrl({ redirectUrl: 'https://myapp.com/auth
 res.redirect(loginUrl);
 ```
 
-### 2. Universal Login Page
+### 2. Universal login page
 
 The user lands on Protekt's hosted login page, scoped to your project's branding and configuration. Protekt handles:
 
@@ -56,7 +56,7 @@ The user lands on Protekt's hosted login page, scoped to your project's branding
 
 Your application is not involved in this step. No credentials ever touch your server.
 
-### 3. Token Issuance
+### 3. Token issuance
 
 After a successful login, Protekt creates a session and issues two tokens:
 
@@ -75,7 +75,7 @@ The access token is a standard JWT and contains the following claims:
 }
 ```
 
-### 4. The Redirect Callback
+### 4. The redirect callback
 
 Protekt redirects the user back to your configured `redirect_url` with the access token as a query parameter:
 
@@ -99,7 +99,7 @@ app.get('/auth/callback', async (req, res) => {
 });
 ```
 
-### 5. Authenticated Requests
+### 5. Authenticated requests
 
 For every subsequent request to your backend, the client sends the access token in the `Authorization` header. Your server verifies it with Protekt before granting access:
 
@@ -108,7 +108,7 @@ For every subsequent request to your backend, the client sends the access token 
 const { user } = await protekt.auth.verifyToken(req.headers.authorization?.split(' ')[1]);
 ```
 
-### 6. Token Refresh
+### 6. Token refresh
 
 When the access token expires, your app uses the refresh token to silently obtain a new one — no login prompt required. The React SDK handles this automatically. In Node.js, you manage it manually:
 
@@ -119,7 +119,7 @@ const { accessToken, refreshToken } = await protekt.auth.refreshToken(storedRefr
 
 If the refresh token is also expired, the user must log in again.
 
-## Token Storage
+## Token storage
 
 How you store tokens depends on your architecture:
 
@@ -131,7 +131,7 @@ How you store tokens depends on your architecture:
 
 Protekt recommends `httpOnly` cookies for server-rendered applications and in-memory storage for SPAs.
 
-## Logout Flow
+## Logout flow
 
 Logging out revokes the session on Protekt's side and clears local tokens:
 
@@ -144,7 +144,7 @@ res.clearCookie('access_token');
 res.redirect('/');
 ```
 
-## Next Steps
+## Next steps
 
 - [Implement Password Login](../guides/implement-password-login)
 - [Implement MFA](../guides/implement-mfa)

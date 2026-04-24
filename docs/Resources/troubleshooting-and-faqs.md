@@ -7,9 +7,9 @@ This page outlines the common issues that you might encounter when working with 
 
 If you're experiencing unexpected behavior, start here before reaching out for support.
 
-## Common Issues
+## Common issues
 
-### 1. Login Fails with `invalid_credentials`
+### 1. Login fails with `invalid_credentials`
 
 **Cause:** Incorrect email or password.
 **Solution:**
@@ -18,7 +18,7 @@ If you're experiencing unexpected behavior, start here before reaching out for s
 - Ensure the user exists in your system
 - Check if password hashing or migration issues exist
 
-### 2. Token Expired Errors
+### 2. Token expired errors
 
 **Cause:** Access tokens are short-lived and may expire during use.
 **Solution:**
@@ -33,7 +33,7 @@ const protekt = new Protekt({
 });
 ```
 
-## 3. Session Not Found or Revoked
+## 3. Session not found or revoked
 
 **Cause**: Session may have expired or been manually revoked.
 **Solution**:
@@ -41,7 +41,7 @@ const protekt = new Protekt({
 - Prompt the user to log in again
 - Check if session revocation logic is triggered unintentionally
 
-### 4. CORS or Network Errors
+### 4. CORS or network errors
 
 **Cause**: Misconfigured API endpoints or missing headers.
 **Solution**:
@@ -49,7 +49,7 @@ const protekt = new Protekt({
 - Ensure your backend is properly configured for CORS
 - Verify API base URL and environment variables
 
-### 5. OAuth Redirect Issues
+### 5. OAuth redirect issues
 
 **Cause**: Incorrect redirect URI or provider configuration.
 **Solution**:
@@ -57,7 +57,7 @@ const protekt = new Protekt({
 - Ensure redirect URI matches exactly (including protocol and path)
 - Check provider settings (Google, GitHub, etc.)
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### How do I keep users logged in?
 
@@ -88,7 +88,7 @@ If refresh token rotation is enabled, reuse detection can invalidate the session
 - Verify token validity and expiration
 - Ensure environment variables are correct
 
-## Debugging Checklist
+## Debugging checklist
 
 Before seeking help, go through this checklist:
 

@@ -5,7 +5,7 @@ sidebar_position: 5
 
 Multi-factor authentication (MFA) requires users to verify their identity with a second factor after entering their password. Protekt supports **TOTP** (authenticator apps), **SMS**, and **backup codes**.
 
-## Supported MFA Methods
+## Supported MFA methods
 
 | Method | Description | Recommended For |
 |---|---|---|
@@ -13,29 +13,31 @@ Multi-factor authentication (MFA) requires users to verify their identity with a
 | **SMS** | 6-digit code sent to a verified phone number | Users without an authenticator app |
 | **Backup codes** | Single-use recovery codes for account recovery | Always enable alongside TOTP/SMS |
 
-## Enabling MFA for a Project
+## Enabling MFA for a project
 
 You can make MFA optional (user-driven) or required for all users in a project.
 
 **Optional MFA** — users choose to enroll:
+
 ```js
 // No project-level setting needed; users can enroll via the MFA endpoints
 ```
 
 **Required MFA** — all users must enroll before accessing the app:
+
 ```js
 await protekt.projects.update('proj_01jk8abc', { mfaRequired: true });
 ```
 
 When `mfaRequired` is true, users who haven't enrolled in MFA will receive an `mfa_enrollment_required` response after login, and you should redirect them to an enrollment flow.
 
-## MFA Enrollment
+## MFA enrollment
 
-### TOTP Enrollment
+### TOTP enrollment
 
 TOTP generates time-based codes using a shared secret between Protekt and the user's authenticator app.
 
-**Step 1 — Start enrollment**
+#### Step 1: Start enrollment
 
 ```js
 // Node.js
@@ -47,7 +49,7 @@ const { totpUri, qrCode } = await protekt.mfa.enroll({
 // qrCode: data:image/png;base64,...
 ```
 
-**Step 2 — Show the QR code to the user**
+#### Step 2: Show the QR code to the user
 
 ```jsx
 // React
@@ -77,7 +79,7 @@ function TotpSetup({ qrCode, totpUri }) {
 }
 ```
 
-**Step 3 — Confirm enrollment**
+#### Step 3 — Confirm enrollment
 
 ```js
 const { error } = await protekt.mfa.verify({
@@ -90,7 +92,7 @@ if (!error) {
 }
 ```
 
-### SMS Enrollment
+### SMS enrollment
 
 ```js
 // Step 1 — Start enrollment with a phone number
@@ -107,7 +109,7 @@ const { error } = await protekt.mfa.verify({
 }, accessToken);
 ```
 
-### Backup Codes
+### Backup codes
 
 Generate backup codes immediately after a user enrolls in TOTP or SMS. Each code is single-use and should be stored securely by the user.
 
@@ -134,7 +136,7 @@ function BackupCodes({ codes }) {
 }
 ```
 
-## MFA Login Challenge
+## MFA login challenge
 
 When MFA is enabled for a user, `POST /auth/login` returns a challenge instead of a token:
 
@@ -202,9 +204,3 @@ if (error?.code === 'mfa_enforced') {
   // Project requires MFA — cannot remove
 }
 ```
-
-## Next Steps
-
-- [Session Management](../concepts/session-management) — revoking sessions after MFA events
-- [Implement Password Login](./implement-password-login) — the primary factor alongside MFA
-- [Security Overview](../security/overview) — Protekt's security posture and compliance

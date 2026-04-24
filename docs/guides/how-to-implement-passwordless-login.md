@@ -1,12 +1,12 @@
 ---
-title: Implement Passwordless Login
+title: Implement passwordless login
 sidebar_position: 4
 ---
 
 
 Passwordless authentication removes the need for users to create or remember passwords. Protekt supports two passwordless methods: **magic links** (a one-click email link) and **OTP** (a short code sent via email or SMS).
 
-## When to Use Passwordless
+## When to use passwordless authentication
 
 Passwordless login is a strong choice when:
 
@@ -15,7 +15,7 @@ Passwordless login is a strong choice when:
 - You're building a low-frequency app where users may not remember a password between visits
 - You want to offer a simpler login option alongside traditional email/password
 
-## Magic Links
+## Magic links
 
 A magic link is a single-use, time-limited URL sent to the user's email. Clicking it instantly authenticates the user — no password required.
 
@@ -92,7 +92,7 @@ app.get('/auth/callback', async (req, res) => {
 
 The React SDK handles the callback automatically when using `ProtektProvider` — no extra code needed.
 
-### Magic Link Settings
+### Magic link settings
 
 | Setting | Default | Description |
 |---|---|---|
@@ -100,7 +100,7 @@ The React SDK handles the callback automatically when using `ProtektProvider` �
 | Single-use | Always | The link is invalidated after first use |
 | Redirect URL | Project default | Can be overridden per request |
 
-## OTP (One-Time Passcode)
+## OTP (one-time passcode)
 
 An OTP is a short numeric code (typically 6 digits) sent to the user's email or phone. The user enters the code in your app to authenticate.
 
@@ -182,7 +182,7 @@ function OtpLogin() {
 }
 ```
 
-### OTP Settings
+### OTP settings
 
 | Setting | Default | Description |
 |---|---|---|
@@ -191,7 +191,7 @@ function OtpLogin() {
 | Max attempts | 5 | Code is invalidated after 5 wrong attempts |
 | Rate limit | 3 per hour | Per email/phone address |
 
-## Combining Passwordless with Password Login
+## Combining passwordless with password login
 
 You can offer both methods simultaneously. A common pattern is to show a "Send me a link instead" option on the password form:
 
@@ -203,7 +203,7 @@ You can offer both methods simultaneously. A common pattern is to show a "Send m
 
 Users who sign up via magic link won't have a password set. They can add one later via the account settings using the `setPassword` method (available when no current password exists).
 
-## Next Steps
+## Next steps
 
 - [Implement MFA](./implement-mfa) — combine OTP as a second factor with password login
 - [Implement SSO](./implement-sso) — enterprise Single Sign-On

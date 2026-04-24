@@ -1,11 +1,11 @@
 ---
-title: Get Started
+title: Get started
 sidebar_position: 2
 ---
 
 This guide will get you up and running with Protekt in under five minutes. By the end, you'll have a working login flow integrated into your application.
 
-## Before You Begin
+## Before you begin
 
 You'll need a Protekt account and an active project. If you haven't created one yet:
 
@@ -15,7 +15,7 @@ You'll need a Protekt account and an active project. If you haven't created one 
 
 Keep these values handy — you'll need them during setup.
 
-## Choose Your Integration Path
+## Choose your integration path
 
 Protekt supports multiple integration methods. Pick the one that fits your stack:
 
@@ -31,17 +31,19 @@ If you're using a framework not listed above, the REST API works with any HTTP c
 
 Choose your package manager and install the Protekt SDK for your platform.
 
-**Node.js**
+### Node.js
+
 ```bash
 npm install @protekt/node
 ```
 
-**React**
+### React
+
 ```bash
 npm install @protekt/react
 ```
 
-## Step 2: Configure Your Project
+## Step 2: Configure your project
 
 Create a Protekt client using your project credentials. We recommend storing these in environment variables.
 
@@ -51,7 +53,8 @@ PROTEKT_LOGIN_ID=lp_7xqm9...
 PROTEKT_API_KEY=pk_live_AbCdEfGh...
 ```
 
-**Node.js**
+### Node.js project
+
 ```js
 import { Protekt } from '@protekt/node';
 
@@ -61,7 +64,8 @@ const protekt = new Protekt({
 });
 ```
 
-**React**
+### React project
+
 ```jsx
 import { ProtektProvider } from '@protekt/react';
 
@@ -74,11 +78,12 @@ export default function App() {
 }
 ```
 
-## Step 3: Add Login to Your App
+## Step 3: Add login to your app
 
 Once configured, adding login is a single function call or component.
 
-**Node.js — verify a token on the backend**
+### Node.js: verify a token on the backend
+
 ```js
 app.get('/dashboard', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -89,7 +94,8 @@ app.get('/dashboard', async (req, res) => {
 });
 ```
 
-**React — protect a route**
+### React: protect a route
+
 ```jsx
 import { useAuth, ProtectedRoute } from '@protekt/react';
 
@@ -104,7 +110,7 @@ function Dashboard() {
 </ProtectedRoute>
 ```
 
-## Step 4: Handle the Login Redirect
+## Step 4: Handle the login redirect
 
 When a user logs in through Protekt's Universal Login page, they are redirected back to your application with a JWT. Configure your redirect URL in the Protekt Dashboard under **Project Settings → Redirect URL**.
 
@@ -120,7 +126,7 @@ app.get('/auth/callback', async (req, res) => {
 });
 ```
 
-## You're Done
+## You're done
 
 That's the core integration. Your application can now authenticate users through Protekt.
 
@@ -131,7 +137,3 @@ From here, you can explore:
 - [Implement MFA](../guides/implement-mfa) — add a second factor to your login flow
 - [Node.js SDK Reference](../sdks/node/api-reference) — full method documentation
 - [React SDK Reference](../sdks/react/installation) — hooks, components, and examples
-
-## Need Help?
-
-If you run into issues during setup, check the [Troubleshooting Guide](../troubleshooting/common-issues) or reach out via the [Support page](../troubleshooting/support).

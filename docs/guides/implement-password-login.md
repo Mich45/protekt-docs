@@ -1,11 +1,7 @@
 ---
-title: Implement Password Login
+title: Implement password login
 sidebar_position: 6
 ---
-
-Traditional email/password authentication flow.
-
-## Overview
 
 Password-based authentication is the most common login method. Users create an account with their email and a password, then use those credentials to log in.
 
@@ -15,7 +11,7 @@ Password-based authentication is the most common login method. Users create an a
 - API key and project ID
 - SDK installed (`@protekt/sdk` or `@protekt/react`)
 
-## Backend Implementation (Node.js)
+## Backend implementation (Node.js)
 
 ### 1. Install SDK
 
@@ -35,7 +31,7 @@ export const protekt = new Protekt({
 });
 ```
 
-### 3. Sign Up Route
+### 3. Sign up route
 
 ```javascript
 // routes/auth.js
@@ -95,7 +91,7 @@ router.post('/signup', async (req, res) => {
 export default router;
 ```
 
-### 4. Login Route
+### 4. Login route
 
 ```javascript
 router.post('/login', async (req, res) => {
@@ -136,7 +132,7 @@ router.post('/login', async (req, res) => {
 });
 ```
 
-### 5. Logout Route
+### 5. Logout route
 
 ```javascript
 router.post('/logout', async (req, res) => {
@@ -152,7 +148,7 @@ router.post('/logout', async (req, res) => {
 });
 ```
 
-### 6. Password Reset Routes
+### 6. Password reset routes
 
 ```javascript
 // Request password reset
@@ -180,15 +176,15 @@ router.post('/reset-password', async (req, res) => {
 });
 ```
 
-## Frontend Implementation (React)
+## Frontend implementation (React)
 
-### 1. Install SDK
+### 1. Install React SDK
 
 ```bash
 npm install @protekt/react
 ```
 
-### 2. Setup AuthProvider
+### 2. Setup `AuthProvider`
 
 ```jsx
 // App.jsx
@@ -206,7 +202,7 @@ function App() {
 }
 ```
 
-### 3. Signup Form
+### 3. Signup form
 
 ```jsx
 // components/SignupForm.jsx
@@ -284,7 +280,7 @@ export function SignupForm() {
 }
 ```
 
-### 4. Login Form
+### 4. Login form
 
 ```jsx
 // components/LoginForm.jsx
@@ -355,7 +351,7 @@ export function LoginForm() {
 }
 ```
 
-### 5. Protected Route
+### 5. Protected route
 
 ```jsx
 // components/ProtectedRoute.jsx
@@ -377,7 +373,7 @@ export function ProtectedRoute({ children }) {
 }
 ```
 
-## Password Requirements
+## Password requirements
 
 Configure password policies in your Protekt dashboard:
 
@@ -389,7 +385,7 @@ Configure password policies in your Protekt dashboard:
 | Require Special Char | No | Optional |
 | Breached Password Check | Yes | Yes |
 
-## Error Codes
+## Error codes
 
 | Code | Description |
 |------|-------------|
@@ -400,7 +396,7 @@ Configure password policies in your Protekt dashboard:
 | `ACCOUNT_LOCKED` | Too many failed attempts |
 | `USER_ALREADY_EXISTS` | Email already registered |
 
-## Security Best Practices
+## Security best practices
 
 1. **Rate limit login attempts** - Prevent brute force attacks
 2. **Use bcrypt/argon2** - Never store plain text passwords
@@ -408,9 +404,3 @@ Configure password policies in your Protekt dashboard:
 4. **Require email verification** - Confirm email before allowing login
 5. **Use HTTPS only** - Encrypt all authentication traffic
 6. **Log suspicious activity** - Monitor for attacks
-
-## Related
-
-- [Authentication Flow](../getting-started/authentication-flow.md)
-- [Implement Passwordless Login](./implement-passwordless-login.md)
-- [Error Codes Reference](../Resources/Error-codes.md)

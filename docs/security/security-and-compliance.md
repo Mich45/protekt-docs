@@ -7,21 +7,19 @@ Protekt is built with security and compliance as foundational principles, not af
 
 This page provides an overview of Protekt’s approach to data privacy, regulatory compliance, and industry certifications. It also outlines how Protekt helps you meet your own compliance obligations when building secure, user-facing applications.
 
-## Data Privacy and Protection
+## Data privacy and protection
 
 Protekt is designed to minimize the amount of sensitive data you need to manage directly. By handling authentication, tokenization, and session management on your behalf, Protekt reduces your exposure to common security risks and compliance burdens.
 
 All sensitive data is encrypted both in transit (via HTTPS/TLS) and at rest using industry-standard encryption mechanisms. Protekt follows strict data isolation practices, ensuring that customer data is logically separated and protected against unauthorized access.
 
-### Data Processing
+### Data processing
 
 Protekt only processes data necessary to provide authentication and identity services. This includes user identifiers (such as email), authentication credentials (securely hashed or tokenized), and session metadata.
 
 Data is never sold or shared with third parties for marketing purposes. Any data processing performed by Protekt is strictly limited to delivering authentication functionality, improving security, and maintaining service reliability.
 
-
-
-## Compliance and Certifications
+## Compliance and certifications
 
 Protekt is designed to align with globally recognized compliance frameworks and security standards. While certifications may vary depending on deployment and customer requirements, Protekt continuously evolves to meet industry expectations.
 
@@ -75,13 +73,13 @@ Protekt is designed to align with **SOC 2** Trust Service Criteria, including Se
 
 Operational processes, infrastructure controls, and monitoring systems are structured to meet these criteria. Audit reports and supporting documentation can be made available upon request.
 
-## Security Architecture
+## Security architecture
 
 Protekt’s architecture is built around a zero-trust model, where every request must be authenticated and validated before access is granted. Tokens are short-lived, sessions are tightly controlled, and all communication is encrypted.
 
 Additional safeguards include anomaly detection, rate limiting, and audit logging. These features help detect and respond to suspicious activity, providing an extra layer of protection for your users and systems.
 
-## Shared Responsibility Model
+## Shared responsibility model
 
 Security in Protekt follows a **shared responsibility model**. Protekt is responsible for securing the platform, infrastructure, and core authentication mechanisms.
 
