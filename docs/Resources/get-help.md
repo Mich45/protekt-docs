@@ -13,7 +13,7 @@ The first place to check is the Protekt documentation. It covers core concepts, 
 
 Make sure to review relevant sections such as Authentication, Session Management, and Security before reaching out. Many common issues can be resolved by following documented best practices.
 
-## Troubleshooting guides
+## Troubleshooting guide
 
 For known issues and frequently asked questions, refer to the troubleshooting section.
 
