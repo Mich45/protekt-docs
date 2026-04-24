@@ -1,6 +1,6 @@
 ---
 title: Implement SSO
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 _Single Sign-On_ (SSO) lets your users authenticate through their organization's identity provider (IdP), such as Okta, Azure AD, or Google Workspace — using enterprise-grade protocols. Protekt supports both **SAML 2.0** and **OIDC** (OpenID Connect).

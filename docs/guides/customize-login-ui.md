@@ -1,5 +1,5 @@
 ---
-title: Customize the Login UI
+title: Customize the login UI
 sidebar_position: 2
 ---
 

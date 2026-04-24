@@ -1,6 +1,6 @@
 ---
 title: Implement MFA
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 Multi-factor authentication (MFA) requires users to verify their identity with a second factor after entering their password. Protekt supports **TOTP** (authenticator apps), **SMS**, and **backup codes**.

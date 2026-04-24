@@ -1,5 +1,5 @@
 ---
-title: Protekt Security and Compliance
+title: Protekt security and compliance
 sidebar_position: 1
 ---
 

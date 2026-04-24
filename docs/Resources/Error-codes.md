@@ -1,5 +1,5 @@
 ---
-title: Error Codes
+title: Error codes
 sidebar_position: 2
 ---
 

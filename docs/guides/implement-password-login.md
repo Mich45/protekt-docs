@@ -1,6 +1,6 @@
 ---
 title: Implement password login
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 Password-based authentication is the most common login method. Users create an account with their email and a password, then use those credentials to log in.

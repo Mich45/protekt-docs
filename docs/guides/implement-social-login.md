@@ -1,6 +1,6 @@
 ---
 title: Implement social login
-sidebar_position: 7
+sidebar_position: 6
 ---
 
 _Social login_ lets users authenticate using an existing account from a provider like Google, GitHub, Apple, or Microsoft — no password required on your end. Protekt handles the OAuth handshake and returns a standard JWT regardless of which provider the user chose.

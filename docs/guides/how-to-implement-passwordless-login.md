@@ -1,6 +1,6 @@
 ---
 title: Implement passwordless login
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 
