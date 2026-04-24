@@ -1,5 +1,5 @@
 ---
-title: Session Management
+title: Session management
 sidebar_position: 3
 ---
 
