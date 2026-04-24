@@ -3,28 +3,69 @@ title: Guides
 sidebar_position: 1
 ---
 
-import DocList from '@site/src/components/DocList/DocList';
-import { KeyRound, Fingerprint, Sliders } from 'lucide-react';
+import DocList from "@site/src/components/DocList/DocList";
+import {
+  Fingerprint,
+  Sliders,
+  ShieldCheck,
+  Lock,
+  Users,
+  Globe,
+  Shield,
+} from "lucide-react";
 
 Explore the capabilities of Protekt through examples.
 
-<DocList items={[
-  {
-    title: "How to Set up Social Logins With OAuth Providers",
-    description: "Learn how to integrate OAuth providers like Google and GitHub.",
-    icon: KeyRound,
-    to: "/docs/guides/how-to-implement-auth0"
-  },
-  {
-    title: "How to Implement Passwordless Login",
-    description: "Add magic link and OTP-based authentication to your app.",
-    icon: Fingerprint,
-    to: "/docs/guides/how-to-implement-passwordless-login"
-  },
-  {
-    title: "Customizing Protekt",
-    description: "Tailor the Protekt experience to match your brand.",
-    icon: Sliders,
-    to: "/docs/guides/customize"
-  },
-]} />
+<DocList
+  items={[
+    {
+      title: "Implement Password Login",
+      description:
+        "Build a traditional email and password authentication flow with Protekt.",
+      icon: Lock,
+      to: "/docs/guides/implement-password-login",
+    },
+    {
+      title: "Implement Passwordless Login",
+      description:
+        "Add magic link and OTP authentication for password-free sign-in.",
+      icon: Fingerprint,
+      to: "/docs/guides/how-to-implement-passwordless-login",
+    },
+    {
+      title: "Implement Social Login",
+      description:
+        "Authenticate users with Google, GitHub, Apple, Microsoft, and other OAuth providers.",
+      icon: Users,
+      to: "/docs/guides/implement-social-login",
+    },
+    {
+      title: "How to Set up Social Logins With OAuth Providers",
+      description:
+        "Configure and connect OAuth providers for social authentication in Protekt.",
+      icon: Globe,
+      to: "/docs/guides/how-to-implement-auth0",
+    },
+    {
+      title: "Implement SSO",
+      description:
+        "Enable enterprise single sign-on using SAML 2.0 or OpenID Connect.",
+      icon: Shield,
+      to: "/docs/guides/implement-sso",
+    },
+    {
+      title: "Implement MFA",
+      description:
+        "Protect accounts with TOTP, SMS, and backup code multi-factor authentication.",
+      icon: ShieldCheck,
+      to: "/docs/guides/implement-mfa",
+    },
+    {
+      title: "Customize the Login UI",
+      description:
+        "Style Protekt’s Universal Login page with custom branding, colors, and CSS.",
+      icon: Sliders,
+      to: "/docs/guides/customize-login-ui",
+    },
+  ]}
+/>

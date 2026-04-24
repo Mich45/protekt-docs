@@ -1,6 +1,6 @@
 ---
-title: Error Handling
-sidebar_position: 4
+title: Node.js Error Handling
+sidebar_position: 3
 ---
 
 The Protekt Node.js SDK uses a consistent error pattern across all methods: every call returns an `error` field rather than throwing, so you can handle failures inline without try/catch on every line.
@@ -11,9 +11,9 @@ When an operation fails, the `error` field contains a structured object:
 
 ```ts
 interface ProtektError {
-  code: string;       // Machine-readable error code (e.g. 'invalid_credentials')
+  code: string;       // Machine-readable error code (for example, 'invalid_credentials')
   message: string;    // Human-readable description
-  status: number;     // HTTP status code (e.g. 401, 429)
+  status: number;     // HTTP status code (for example, 401, 429)
   details?: object;   // Additional context, if available
 }
 ```

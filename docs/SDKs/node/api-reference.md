@@ -1,6 +1,6 @@
 ---
 title: Node.js SDK — API Reference
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 Complete reference for all methods available on the Protekt Node.js SDK client.

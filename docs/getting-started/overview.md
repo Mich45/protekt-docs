@@ -1,6 +1,6 @@
 ---
-title: Quickstart
-sidebar_position: 1
+title: Get Started
+sidebar_position: 2
 ---
 
 This guide will get you up and running with Protekt in under five minutes. By the end, you'll have a working login flow integrated into your application.

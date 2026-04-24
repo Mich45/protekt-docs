@@ -1,6 +1,6 @@
 ---
 title: Customize the Login UI
-sidebar_position: 6
+sidebar_position: 2
 ---
 
 Protekt's _Universal Login_ page is fully customizable. You can update colors, fonts, logos, and copy to match your brand, or go further and apply custom CSS for complete visual control.
@@ -104,12 +104,12 @@ Changes to Custom CSS are previewed live in the Dashboard before publishing. Use
 
 ## Custom Domain
 
-By default, users see Protekt's login page at `login.protekt.io`. You can serve it from your own domain (e.g. `auth.myapp.com`) for a fully seamless experience.
+By default, users see Protekt's login page at `login.protekt.io`. You can serve it from your own domain (for example, `auth.myapp.com`) for a fully seamless experience.
 
 ### Setup
 
 1. In the Dashboard, go to **Project Settings → Branding → Custom Domain**
-2. Enter your subdomain (e.g. `auth.myapp.com`)
+2. Enter your subdomain (for example, `auth.myapp.com`)
 3. Add the following DNS records at your domain registrar:
 
 ```text

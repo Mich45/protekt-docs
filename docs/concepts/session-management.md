@@ -1,6 +1,6 @@
 ---
 title: Session Management
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 Session management in **Protekt** is designed to balance security, performance, and developer experience. It provides a structured way to maintain authenticated user state across requests while minimizing risk through short-lived tokens and controlled renewal mechanisms.

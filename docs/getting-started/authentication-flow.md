@@ -1,15 +1,15 @@
 ---
 title: Authentication Flow
-sidebar_position: 4
+sidebar_position: 3
 ---
 
-This guide walks through what actually happens when a user logs in with Protekt — from the initial redirect to the JWT landing in your application.
+This guide walks through what actually happens when a user logs in with Protekt, from the initial redirect to the JWT landing in your application.
 
 ## Overview
 
 Protekt uses a **redirect-based flow** built on top of JWTs. Rather than building your own login UI from scratch, your application redirects users to Protekt's hosted Universal Login page, which handles credential collection, validation, and session creation. Once authenticated, users are sent back to your app with a signed token.
 
-```
+```text
 User clicks "Sign In"
         ↓
 App redirects → Protekt Universal Login
@@ -93,7 +93,7 @@ app.get('/auth/callback', async (req, res) => {
 
   if (error) return res.redirect('/login?error=invalid_token');
 
-  // Store the token (e.g. in an httpOnly cookie)
+  // Store the token (for example, in an httpOnly cookie)
   res.cookie('access_token', token, { httpOnly: true, secure: true });
   res.redirect('/dashboard');
 });

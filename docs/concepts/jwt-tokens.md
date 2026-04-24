@@ -7,11 +7,11 @@ Protekt uses **JSON Web Tokens (JWTs)** as the primary mechanism for representin
 
 ## What Is a JWT?
 
-A JWT is a compact, URL-safe string that encodes a set of **claims** — statements about a user or session — and is cryptographically signed so that the recipient can verify it hasn't been tampered with.
+A JWT is a compact, URL-safe string that encodes a set of **claims**: statements about a user or session, and is cryptographically signed so that the recipient can verify it hasn't been tampered with.
 
 A JWT has three parts separated by dots:
 
-```
+```bash
 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3JfOWtsYWJjIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     ^-- Header              ^-- Payload                    ^-- Signature
 ```
@@ -87,7 +87,7 @@ console.log(user.email); // user@example.com
 
 For high-throughput scenarios where you want to avoid a network call on every request, you can verify tokens locally using Protekt's public JWKS endpoint:
 
-```
+```bash
 GET https://auth.protekt.io/v1/.well-known/jwks.json
 ```
 
@@ -125,10 +125,10 @@ SDK verification and the `/auth/token/verify` endpoint check this list automatic
 
 ## Security Considerations
 
-- **Never decode a JWT and trust its contents without verifying the signature first.** The payload is Base64-encoded, not encrypted — anyone can read it.
+- **Never decode a JWT and trust its contents without verifying the signature first.** The payload is Base64-encoded, not encrypted, so anyone can read it.
 - **Do not store sensitive data in JWT claims.** Claims are readable by the client. Use metadata only for non-sensitive identifiers.
-- **Keep access tokens short-lived.** A 1-hour expiry is a reasonable default. Avoid lifetimes longer than 24 hours.
-- **Rotate your API keys** if you suspect they have been compromised — this does not invalidate existing user JWTs but prevents new ones from being issued via the affected key.
+- **Keep access tokens short-lived.** A one-hour expiry is a reasonable default. Avoid lifetimes longer than 24 hours.
+- **Rotate your API keys** if you suspect they have been compromised, this does not invalidate existing user JWTs but prevents new ones from being issued via the affected key.
 
 ## Next Steps
 

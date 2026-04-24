@@ -1,6 +1,6 @@
 ---
 title: Protekt Node.js SDK
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 The Protekt Node.js SDK gives you a clean, typed interface to the Protekt Authentication API. It works in any Node.js environment — Express, Fastify, NestJS, serverless functions, and more.

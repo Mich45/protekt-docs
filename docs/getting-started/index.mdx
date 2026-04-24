@@ -3,20 +3,43 @@ title: Getting Started
 sidebar_position: 1
 ---
 
-import CardGrid from '@site/src/components/CardGrid/CardGrid.tsx';
-import { Triangle, Box, Cpu, Paintbrush, Download } from 'lucide-react';
+import CardGrid from "@site/src/components/CardGrid/CardGrid.tsx";
+import { Triangle, Box, Cpu, Paintbrush, Download } from "lucide-react";
 
-<CardGrid cards={[
-  {
-    title: "Next.js SDK",
-    description: "Integrate Protekt in your Next.js application.",
-    icon: Triangle,
-    to: "/docs/getting-started/Next-sdk"
-  },
-  {
-    title: "Node.js SDK",
-    description: "Integrate Protekt in your Node.js application.",
-    icon: Box,
-    to: "/docs/getting-started/Node-sdk"
-  },
-]} />
+<CardGrid
+  cards={[
+    {
+      title: "Get Started",
+      description: "Quickly set up Protekt and launch your first login flow.",
+      icon: Download,
+      to: "/docs/getting-started/overview",
+    },
+    {
+      title: "Authentication Flow",
+      description:
+        "Learn how Protekt’s redirect-based login flow works step by step.",
+      icon: Cpu,
+      to: "/docs/getting-started/authentication-flow",
+    },
+    {
+      title: "Next.js SDK",
+      description:
+        "Integrate Protekt into your Next.js app using the official SDK.",
+      icon: Triangle,
+      to: "/docs/getting-started/Next-sdk",
+    },
+    {
+      title: "Node.js SDK",
+      description:
+        "Use Protekt’s Node.js SDK for backend authentication and token verification.",
+      icon: Box,
+      to: "/docs/getting-started/Node-sdk",
+    },
+    {
+      title: "React SDK",
+      description: "Add auth hooks and components to React apps with Protekt.",
+      icon: Paintbrush,
+      to: "/docs/getting-started/React-sdk",
+    },
+  ]}
+/>

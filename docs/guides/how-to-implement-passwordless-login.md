@@ -1,9 +1,8 @@
 ---
-
-sidebar_position: 2
+title: Implement Passwordless Login
+sidebar_position: 4
 ---
 
-# Implement Passwordless Login
 
 Passwordless authentication removes the need for users to create or remember passwords. Protekt supports two passwordless methods: **magic links** (a one-click email link) and **OTP** (a short code sent via email or SMS).
 

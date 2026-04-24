@@ -1,4 +1,7 @@
-# Implement Password Login
+---
+title: Implement Password Login
+sidebar_position: 6
+---
 
 Traditional email/password authentication flow.
 

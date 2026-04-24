@@ -1,6 +1,6 @@
 ---
 title: Installation
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 After [installing the SDK](./installation), create a `Protekt` client instance and configure it with your project credentials and any options relevant to your application.
@@ -83,7 +83,7 @@ console.log(user.metadata.plan); // 'free' | 'pro' | 'enterprise'
 
 ## Multiple Projects
 
-If your application manages multiple Protekt projects (e.g. separate projects per tenant), create a separate client instance per project:
+If your application manages multiple Protekt projects (for example, separate projects per tenant), create a separate client instance per project:
 
 ```js
 // lib/protekt.js

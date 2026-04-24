@@ -1,6 +1,6 @@
 ---
 title: Implement Social Login
-sidebar_position: 3
+sidebar_position: 7
 ---
 
 Social login lets users authenticate using an existing account from a provider like Google, GitHub, Apple, or Microsoft — no password required on your end. Protekt handles the OAuth handshake and returns a standard JWT regardless of which provider the user chose.
@@ -153,7 +153,7 @@ console.log(user.metadata.provider); // 'google'
 
 ## Scopes and Permissions
 
-By default, Protekt requests only the minimum scopes needed to identify the user (email and profile). If your application needs additional permissions (e.g. Google Calendar access), configure additional scopes in the dashboard under **Social Providers → Advanced Settings**.
+By default, Protekt requests only the minimum scopes needed to identify the user (email and profile). If your application needs additional permissions (for example, Google Calendar access), configure additional scopes in the dashboard under **Social Providers → Advanced Settings**.
 
 ## Next Steps
 
