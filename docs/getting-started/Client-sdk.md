@@ -1,9 +1,9 @@
 ---
-title: Protekt React SDK
+title: Protekt Client SDK
 sidebar_position: 6
 ---
 
-The Protekt React SDK provides hooks and components for adding authentication to React and Next.js applications. It handles token storage, session refresh, and auth state automatically.
+The Protekt Client SDK provides hooks and components for adding authentication to React and Next.js applications. It handles token storage, session refresh, and auth state automatically.
 
 ## Requirements
 
