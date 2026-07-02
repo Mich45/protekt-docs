@@ -3,7 +3,7 @@ title: Protekt security and compliance
 sidebar_position: 1
 ---
 
-Protekt is built with security and compliance as foundational principles, not afterthoughts. From how user data is processed to how authentication flows are secured, every layer of the platform is designed to meet modern security standards and regulatory expectations.
+Protekt is built with security and compliance as foundational principles, rather than afterthoughts. From how user data is processed to how authentication flows are secured, every layer of the platform is designed to meet modern security standards and regulatory expectations.
 
 This page provides an overview of Protekt’s approach to data privacy, regulatory compliance, and industry certifications. It also outlines how Protekt helps you meet your own compliance obligations when building secure, user-facing applications.
 
